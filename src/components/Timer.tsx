@@ -1,26 +1,26 @@
-  import React, { useEffect, useState } from "react";
-  import { ICallBackType } from "../shared/helpers/types";
+import React, { useEffect, useState } from "react";
+import { ICallBackType } from "../shared/helpers/types";
 
-  interface TimerProps {
-    setTimeOut: ICallBackType
-    questionNumber: number
-  }
-  
-  const Timer: React.FC<TimerProps> = ({ setTimeOut, questionNumber }) => {
-    const [timer, setTimer] = useState(30);
+interface TimerProps {
+  setTimeOut: ICallBackType
+  questionNumber: number
+}
 
-    useEffect(() => {
-      if (timer === 0) return setTimeOut(true);
-      const interval = setInterval(() => {
-        setTimer((prev) => prev - 1);
-      }, 1000);
-      return () => clearInterval(interval);
-    }, [timer, setTimeOut]);
+const Timer = ({ setTimeOut, questionNumber }: TimerProps) => {
+  const [timer, setTimer] = useState(3000);
 
-    useEffect(() => {
-      setTimer(30);
-    }, [questionNumber]);
-    return timer;
-  }
+  useEffect(() => {
+    if (timer === 0) return setTimeOut(true);
+    const interval = setInterval(() => {
+      setTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [timer, setTimeOut]);
 
-  export default Timer
+  useEffect(() => {
+    setTimer(3000);
+  }, [questionNumber]);
+  return <>{timer}</> ;
+}
+
+export default Timer

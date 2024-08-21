@@ -9,7 +9,7 @@ import Start from "./components/Start";
 function App() {
   const [username, setUsername] = useState(null);
   const [timeOut, setTimeOut] = useState(false);
-  const [questionNumber, setQuestionNumber] = useState(1);
+  const [questionNumber, setQuestionNumber] = useState<number>(1);
   const [earned, setEarned] = useState("$ 0");
 
   const moneyPyramid = useMemo(
@@ -30,6 +30,7 @@ function App() {
         { id: 13, amount: "$ 250.000" },
         { id: 14, amount: "$ 500.000" },
         { id: 15, amount: "$ 1.000.000" },
+        { id: 16, amount: "$ 3.000.000" },
       ].reverse(),
     []
   ) as any;
@@ -45,7 +46,29 @@ function App() {
         <Start setUsername={setUsername} />
       ) : (
         <>
+          <div className="pyramid">
+            <ul className="moneyList">
+              {moneyPyramid.map((m: ObjectType) => (
+                <li
+                  className={
+                    questionNumber === m.id
+                      ? "moneyListItem active"
+                      : "moneyListItem"
+                  }
+                >
+                  <span className="moneyListItemNumber">{m.id}</span>
+                  {questionNumber === m.id && <span className='active_rotate'></span>}
+                  <span className="moneyListItemAmount">{m.amount}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div className="main">
+            <div className="info_text">
+              <p> Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ, Հարգելի {username}</p>
+            </div>
+            
             {timeOut ? (
               <h1 className="endText">You earned: {earned}</h1>
             ) : (
@@ -58,6 +81,7 @@ function App() {
                     />
                   </div>
                 </div>
+                
                 <div className="bottom">
                   <Trivia
                     data={questionData}
@@ -68,22 +92,6 @@ function App() {
                 </div>
               </>
             )}
-          </div>
-          <div className="pyramid">
-            <ul className="moneyList">
-              {moneyPyramid.map((m: ObjectType) => (
-                <li
-                  className={
-                    questionNumber === m.id
-                      ? "moneyListItem active"
-                      : "moneyListItem"
-                  }
-                >
-                  <span className="moneyListItemNumber">{m.id}</span>
-                  <span className="moneyListItemAmount">{m.amount}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         </>
       )}
