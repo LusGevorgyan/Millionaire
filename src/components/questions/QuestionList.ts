@@ -4,20 +4,28 @@ const questionData = [
     question: "Rolex is a company that specializes in what type of product?",
     answers: [
       {
+        option: "Ա",
         text: "Phone",
         correct: false,
+        probability: 10
       },
       {
+        option: "Բ",
         text: "Watches",
         correct: true,
+        probability: 20
       },
       {
+        option: "Գ",
         text: "Food",
         correct: false,
+        probability: 50
       },
       {
+        option: "Դ",
         text: "Cosmetic",
         correct: false,
+        probability: 20
       },
     ],
   },
@@ -27,20 +35,28 @@ const questionData = [
     question: "When did the website `Facebook` launch?",
     answers: [
       {
-        text: "2004",
+        option: "Ա",
+        text: "Phone",
+        correct: false,
+        probability: 10
+      },
+      {
+        option: "Բ",
+        text: "Watches",
         correct: true,
+        probability: 20
       },
       {
-        text: "2005",
+        option: "Գ",
+        text: "Food",
         correct: false,
+        probability: 50
       },
       {
-        text: "2006",
+        option: "Դ",
+        text: "Cosmetic",
         correct: false,
-      },
-      {
-        text: "2007",
-        correct: false,
+        probability: 20
       },
     ],
   },
@@ -49,20 +65,28 @@ const questionData = [
     question: "Who played the character of harry potter in movie?",
     answers: [
       {
-        text: "Johnny Deep",
+        option: "Ա",
+        text: "Phone",
         correct: false,
+        probability: 10
       },
       {
-        text: "Leonardo Di Caprio",
-        correct: false,
-      },
-      {
-        text: "Denzel Washington",
-        correct: false,
-      },
-      {
-        text: "Daniel Red Cliff",
+        option: "Բ",
+        text: "Watches",
         correct: true,
+        probability: 20
+      },
+      {
+        option: "Գ",
+        text: "Food",
+        correct: false,
+        probability: 50
+      },
+      {
+        option: "Դ",
+        text: "Cosmetic",
+        correct: false,
+        probability: 20
       },
     ],
   },

@@ -1,6 +1,8 @@
 export interface AnswerType {
+    option: string
     text: string
     correct: boolean
+    probability: number
 }
 
 export type AnswersType = AnswerType[]

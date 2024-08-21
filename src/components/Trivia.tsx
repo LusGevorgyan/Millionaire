@@ -72,7 +72,14 @@ const Trivia: React.FC<TriviaProps> = ({
             className={selectedAnswer === a ? className : "answer"}
             onClick={() => !selectedAnswer && handleClick(a)}
           >
-            {a.text}
+            <div style={{display: 'flex', alignItems: 'center'}}>
+              <div className="rotate" style={{marginRight: '20px'}}></div>{a.option}.
+                <span style={{marginLeft: '10px'}}>
+                  {a.text}
+                </span>
+                
+            </div>
+            <div className="rotate" style={{marginRight: '20px'}}></div>
           </div>
         ))}
       </div>
