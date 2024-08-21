@@ -1,55 +1,38 @@
-import "./App.css";
-import { useEffect, useMemo, useState } from "react";
-import Timer from "./components/Timer";
-import Trivia from "./components/Trivia";
-import { ObjectType } from "./shared/helpers/types";
+import "./App.css"
+import { useEffect, useMemo } from "react"
+import Timer from "./components/Timer"
+import AnswerList from "./components/AnswerList"
+import { ObjectType } from "./shared/helpers/types"
 import questionData from "./components/questions/QuestionList"
-import Start from "./components/Start";
+import amountList from "./components/amounts/AmountList"
+import Start from "./components/Start"
+import { useSelector, useDispatch } from 'react-redux'
+import { setEarned } from "./store/slice/GameSlice"
+import { RootState } from "./store/store"
 
 function App() {
-  const [username, setUsername] = useState(null);
-  const [timeOut, setTimeOut] = useState(false);
-  const [questionNumber, setQuestionNumber] = useState<number>(1);
-  const [earned, setEarned] = useState("$ 0");
-
-  const moneyPyramid = useMemo(
-    () =>
-      [
-        { id: 1, amount: "$ 100" },
-        { id: 2, amount: "$ 200" },
-        { id: 3, amount: "$ 300" },
-        { id: 4, amount: "$ 500" },
-        { id: 5, amount: "$ 1.000" },
-        { id: 6, amount: "$ 2.000" },
-        { id: 7, amount: "$ 4.000" },
-        { id: 8, amount: "$ 8.000" },
-        { id: 9, amount: "$ 16.000" },
-        { id: 10, amount: "$ 32.000" },
-        { id: 11, amount: "$ 64.000" },
-        { id: 12, amount: "$ 125.000" },
-        { id: 13, amount: "$ 250.000" },
-        { id: 14, amount: "$ 500.000" },
-        { id: 15, amount: "$ 1.000.000" },
-        { id: 16, amount: "$ 3.000.000" },
-      ].reverse(),
-    []
-  ) as any;
+  const dispatch = useDispatch()
+  const { username, timeOut, questionNumber, earned } = useSelector((state: RootState) => state.game)
+  const moneyPyramid = useMemo(() => amountList, []) as ObjectType
 
   useEffect(() => {
-    questionNumber > 1 &&
-      setEarned(moneyPyramid.find((m: ObjectType) => m.id === questionNumber - 1).amount);
-  }, [questionNumber, moneyPyramid]);
+    if (questionNumber > 1) {
+      const amount = moneyPyramid.find((m: ObjectType) => m.id === questionNumber - 1)?.amount || "$ 0"
+      dispatch(setEarned(amount))
+    }
+  }, [questionNumber, moneyPyramid, dispatch])
 
   return (
     <div className="app">
       {!username ? (
-        <Start setUsername={setUsername} />
+        <Start />
       ) : (
         <>
           <div className="pyramid">
             <ul className="moneyList">
               {moneyPyramid.map((m: ObjectType) => (
                 <li
+                  key={m.id}
                   className={
                     questionNumber === m.id
                       ? "moneyListItem active"
@@ -66,7 +49,7 @@ function App() {
 
           <div className="main">
             <div className="info_text">
-              <p> Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ, Հարգելի {username}</p>
+              <p>Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ, Հարգելի {username}</p>
             </div>
             
             {timeOut ? (
@@ -75,28 +58,22 @@ function App() {
               <>
                 <div className="top">
                   <div className="timer">
-                    <Timer
-                      setTimeOut={setTimeOut}
-                      questionNumber={questionNumber}
-                    />
+                    <Timer />
                   </div>
                 </div>
                 
-                <div className="bottom">
-                  <Trivia
-                    data={questionData}
-                    questionNumber={questionNumber}
-                    setQuestionNumber={setQuestionNumber}
-                    setTimeOut={setTimeOut}
-                  />
-                </div>
-              </>
+                  <div className="bottom">
+                    <AnswerList
+                      data={questionData}
+                    />
+                  </div>
+                </>
             )}
           </div>
         </>
       )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

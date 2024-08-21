@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { ICallBackType } from "../shared/helpers/types";
+import React, { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { setTimeOut } from "../store/slice/GameSlice"
+import { RootState } from "../store/store"
 
-interface TimerProps {
-  setTimeOut: ICallBackType
-  questionNumber: number
-}
-
-const Timer = ({ setTimeOut, questionNumber }: TimerProps) => {
-  const [timer, setTimer] = useState(3000);
-
-  useEffect(() => {
-    if (timer === 0) return setTimeOut(true);
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [timer, setTimeOut]);
+const Timer = () => {
+  const dispatch = useDispatch()
+  const [timer, setTimer] = useState(3000)
+  const questionNumber = useSelector((state: RootState) => state.game.questionNumber)
 
   useEffect(() => {
-    setTimer(3000);
-  }, [questionNumber]);
-  return <>{timer}</> ;
+    if (timer === 0) {
+      dispatch(setTimeOut(true))
+    } else {
+      const interval = setInterval(() => {
+        setTimer((prev) => prev - 1)
+      }, 1000)
+      return () => clearInterval(interval)
+    }
+  }, [timer, dispatch])
+
+  useEffect(() => {
+    setTimer(3000)
+  }, [questionNumber])
+
+  return <>{timer}</>
 }
 
 export default Timer

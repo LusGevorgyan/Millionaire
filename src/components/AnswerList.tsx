@@ -4,22 +4,20 @@ import play from "../sounds/play.mp3"
 import correct from "../sounds/correct.mp3"
 import wrong from "../sounds/wrong.mp3"
 import { QuestionsType, QuestionType } from "./questions/question.type"
+import { useSelector, useDispatch } from 'react-redux'
+import { setSelectedAnswer, setTimeOut, setQuestionNumber } from "../store/slice/GameSlice"
+import { RootState } from "../store/store"
 
-interface TriviaProps {
+interface AnswerListProps {
   data: QuestionsType
-  questionNumber: number
-  setQuestionNumber: React.Dispatch<React.SetStateAction<number>>
-  setTimeOut: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Trivia: React.FC<TriviaProps> = ({
+const AnswerList: React.FC<AnswerListProps> = ({
   data,
-  questionNumber,
-  setQuestionNumber,
-  setTimeOut,
 }) => {
+  const dispatch = useDispatch()
+  const { selectedAnswer, questionNumber } = useSelector((state: RootState) => state.game)
   const [question, setQuestion] = useState<QuestionType | null>(null)
-  const [selectedAnswer, setSelectedAnswer] = useState<QuestionType["answers"][0] | null>(null)
   const [className, setClassName] = useState("answer")
   const [letsPlay] = useSound(play)
   const [correctAnswer] = useSound(correct)
@@ -40,7 +38,7 @@ const Trivia: React.FC<TriviaProps> = ({
   }
 
   const handleClick = (a: QuestionType["answers"][0]) => {
-    setSelectedAnswer(a)
+    dispatch(setSelectedAnswer(a.text))
     setClassName("answer active")
     delay(3000, () => {
       setClassName(a.correct ? "answer correct" : "answer wrong")
@@ -50,13 +48,13 @@ const Trivia: React.FC<TriviaProps> = ({
       if (a.correct) {
         correctAnswer()
         delay(1000, () => {
-          setQuestionNumber((prev) => prev + 1)
-          setSelectedAnswer(null)
+          dispatch(setQuestionNumber(questionNumber + 1))
+          dispatch(setSelectedAnswer(null))
         })
       } else {
         wrongAnswer()
         delay(1000, () => {
-          setTimeOut(true)
+          dispatch(setTimeOut(true))
         })
       }
     })
@@ -66,20 +64,19 @@ const Trivia: React.FC<TriviaProps> = ({
     <div className="trivia">
       <div className="question">{question?.question}</div>
       <div className="answers">
-        {question?.answers.map((a, index) => (
+        {question?.answers.map((answer, index) => (
           <div
             key={index}
-            className={selectedAnswer === a ? className : "answer"}
-            onClick={() => !selectedAnswer && handleClick(a)}
+            className={selectedAnswer === answer.text ? className : "answer"}
+            onClick={() => !selectedAnswer && handleClick(answer)}
           >
-            <div style={{display: 'flex', alignItems: 'center'}}>
-              <div className="rotate" style={{marginRight: '20px'}}></div>{a.option}.
-                <span style={{marginLeft: '10px'}}>
-                  {a.text}
-                </span>
-                
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div className="rotate" style={{ marginRight: '20px' }}></div>{answer.option}.
+              <span style={{ marginLeft: '10px' }}>
+                {answer.text}
+              </span>
             </div>
-            <div className="rotate" style={{marginRight: '20px'}}></div>
+            <div className="rotate" style={{ marginRight: '20px' }}></div>
           </div>
         ))}
       </div>
@@ -87,4 +84,4 @@ const Trivia: React.FC<TriviaProps> = ({
   )
 }
 
-export default Trivia
+export default AnswerList

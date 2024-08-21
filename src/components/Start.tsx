@@ -1,18 +1,16 @@
-import React, { useRef, useState } from "react"
-import { ICallBackType } from "../shared/helpers/types"
+import { useRef, useState } from "react"
 import announcerIcon from "../assets/announcer.png"
+import { setUsername } from "../store/slice/GameSlice"
+import { useDispatch } from "react-redux"
 
-interface StartProps {
-  setUsername: ICallBackType 
-}
-
-const Start: React.FC<StartProps> = ({ setUsername }) => {
+const Start = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [isStarted, setIsStarted] = useState<boolean>(false)
+  const dispatch = useDispatch()
 
   const handleClick = () => {
     if (inputRef.current && inputRef.current.value) {
-      setUsername(inputRef.current.value)
+      dispatch(setUsername(inputRef.current.value))
     }
   }
 
