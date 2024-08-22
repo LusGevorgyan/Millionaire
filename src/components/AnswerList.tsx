@@ -80,7 +80,7 @@ const AnswerList = ({ data }: AnswerListProps) => {
   
   return (
     <div className="trivia">
-      <img src={people.player} className="player" alt="Player"/>
+      {/* <img src={people.player} className="player" alt="Player"/> */}
       <div className="question">{question?.question}</div>
       <div className="answers">
         {question?.answers.map((answer, index) => {
