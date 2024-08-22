@@ -7,16 +7,18 @@ import { QuestionsType, QuestionType } from "./questions/question.type"
 import { useSelector, useDispatch } from 'react-redux'
 import { setSelectedAnswer, setTimeOut, setQuestionNumber } from "../store/slice/GameSlice"
 import { RootState } from "../store/store"
+import shuffleAndSelectQuestions from "../shared/shuffleAndSelectQuestions"
 
 interface AnswerListProps {
   data: QuestionsType
 }
 
-const AnswerList: React.FC<AnswerListProps> = ({
-  data,
-}) => {
+const AnswerList = ({ data }: AnswerListProps) => {
   const dispatch = useDispatch()
   const { selectedAnswer, questionNumber } = useSelector((state: RootState) => state.game)
+  const { people } = useSelector((state: RootState) => state.people)
+
+  const [selectedQuestions, setSelectedQuestions] = useState<QuestionsType>([])
   const [question, setQuestion] = useState<QuestionType | null>(null)
   const [className, setClassName] = useState("answer")
   const [letsPlay] = useSound(play)
@@ -24,12 +26,17 @@ const AnswerList: React.FC<AnswerListProps> = ({
   const [wrongAnswer] = useSound(wrong)
 
   useEffect(() => {
-    letsPlay()
-  }, [letsPlay])
+    // letsPlay()
+
+    const selected = shuffleAndSelectQuestions(data, 15)
+    setSelectedQuestions(selected)
+    setQuestion(selected[questionNumber - 1])
+
+  }, [data, letsPlay])
 
   useEffect(() => {
-    setQuestion(data[questionNumber - 1])
-  }, [data, questionNumber])
+    setQuestion(selectedQuestions[questionNumber - 1])
+  }, [selectedQuestions, questionNumber])
 
   const delay = (duration: number, callback: () => void) => {
     setTimeout(() => {
@@ -40,28 +47,36 @@ const AnswerList: React.FC<AnswerListProps> = ({
   const handleClick = (a: QuestionType["answers"][0]) => {
     dispatch(setSelectedAnswer(a.text))
     setClassName("answer active")
+    
     delay(3000, () => {
       setClassName(a.correct ? "answer correct" : "answer wrong")
     })
-
-    delay(5000, () => {
-      if (a.correct) {
+  
+    if (!a.correct) {
+      delay(5000, () => {
+        const correctAnswer = question?.answers.find(ans => ans.correct)
+        if (correctAnswer) {
+          setClassName(`answer correct`)
+        }
+        wrongAnswer()
+        delay(1000, () => {
+          dispatch(setTimeOut(true))
+        })
+      })
+    } else {
+      delay(5000, () => {
         correctAnswer()
         delay(1000, () => {
           dispatch(setQuestionNumber(questionNumber + 1))
           dispatch(setSelectedAnswer(null))
         })
-      } else {
-        wrongAnswer()
-        delay(1000, () => {
-          dispatch(setTimeOut(true))
-        })
-      }
-    })
+      })
+    }
   }
 
   return (
     <div className="trivia">
+      <img src={people.player} className="player"/>
       <div className="question">{question?.question}</div>
       <div className="answers">
         {question?.answers.map((answer, index) => (

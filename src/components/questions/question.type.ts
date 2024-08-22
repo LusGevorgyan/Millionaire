@@ -10,6 +10,7 @@ export type AnswersType = AnswerType[]
 export interface QuestionType {
     id: number
     question: string
+    difficulty: string
     answers: AnswersType
 }
 
