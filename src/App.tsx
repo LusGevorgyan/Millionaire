@@ -12,36 +12,37 @@ import { RootState } from "./store/store"
 
 function App() {
   const dispatch = useDispatch()
-  const { username, timeOut, questionNumber, earned } = useSelector((state: RootState) => state.game)
+  const { timeOut, questionNumber, earned } = useSelector((state: RootState) => state.game)
   const moneyPyramid = useMemo(() => amountList, []) as ObjectType
+  const { people } = useSelector((state: RootState) => state.people)
 
   useEffect(() => {
     if (questionNumber > 1) {
-      const amount = moneyPyramid.find((m: ObjectType) => m.id === questionNumber - 1)?.amount || "$ 0"
+      const amount = moneyPyramid.find((money: ObjectType) => money.id === questionNumber - 1)?.amount || "$ 0"
       dispatch(setEarned(amount))
     }
   }, [questionNumber, moneyPyramid, dispatch])
 
   return (
     <div className="app">
-      {!username ? (
+      {!people.id ? (
         <Start />
       ) : (
         <>
           <div className="pyramid">
             <ul className="moneyList">
-              {moneyPyramid.map((m: ObjectType) => (
+              {moneyPyramid.map((money: ObjectType) => (
                 <li
-                  key={m.id}
+                  key={money.id}
                   className={
-                    questionNumber === m.id
+                    questionNumber === money.id
                       ? "moneyListItem active"
-                      : "moneyListItem"
+                      : `moneyListItem ${money.approved ? 'approved' : ''}`
                   }
                 >
-                  <span className="moneyListItemNumber">{m.id}</span>
-                  {questionNumber === m.id && <span className='active_rotate'></span>}
-                  <span className="moneyListItemAmount">{m.amount}</span>
+                  <span className="moneyListItemNumber">{money.id}</span>
+                  {questionNumber === money.id && <span className='active_rotate'></span>}
+                  <span className="moneyListItemAmount">{money.amount}</span>
                 </li>
               ))}
             </ul>
@@ -49,7 +50,7 @@ function App() {
 
           <div className="main">
             <div className="info_text">
-              <p>Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ, Հարգելի {username}</p>
+              <p>Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ, Հարգելի {people.name}</p>
             </div>
             
             {timeOut ? (

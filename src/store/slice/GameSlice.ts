@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface GameState {
-  username: string | null
   timeOut: boolean
   questionNumber: number
   earned: string
@@ -9,7 +8,6 @@ export interface GameState {
 }
 
 const initialState: GameState = {
-  username: null,
   timeOut: false,
   questionNumber: 1,
   earned: "$ 0",
@@ -20,9 +18,6 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    setUsername: (state, action: PayloadAction<string>) => {
-      state.username = action.payload
-    },
     setTimeOut: (state, action: PayloadAction<boolean>) => {
       state.timeOut = action.payload
     },
@@ -38,5 +33,5 @@ const gameSlice = createSlice({
   }
 })
 
-export const { setUsername, setTimeOut, setQuestionNumber, setEarned, setSelectedAnswer } = gameSlice.actions
+export const { setTimeOut, setQuestionNumber, setEarned, setSelectedAnswer } = gameSlice.actions
 export default gameSlice.reducer
