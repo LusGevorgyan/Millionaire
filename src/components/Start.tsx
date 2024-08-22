@@ -11,13 +11,15 @@ const Start = () => {
       : <div className="content">
         <div className="content_list">
           <img src={announcerIcon} />
-          <span>Հարգելի խաղացող:</span>
-          <span className="text">Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ: Ձեզ սպասվում է 15 հարց 3000000 ձեռք բերելու համար:</span>
-          <span> Այսպիսով դուք պատրաստ ե՞ք </span>
+          <span>Dear Player:</span>
+          <span className="text">
+            Welcome to the Who Wants to Be a Millionaire intellectual game! You will face 15 questions for a chance to win $3,000,000
+          </span>
+          <span> So, are you ready? </span>
           
           <div className="button_list">
-            <button className="yes" onClick={() => setIsStarted(!isStarted)}> ԱՅՈ </button>
-            <button className="no" onClick={() => alert('Գնացեք պատրաստվելու')}> ՈՉ </button>
+            <button className="yes" onClick={() => setIsStarted(!isStarted)}> Yes </button>
+            <button className="no" onClick={() => alert('Գնացեք պատրաստվելու')}> No </button>
           </div>
         </div>  
       </div>}
