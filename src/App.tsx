@@ -50,7 +50,9 @@ function App() {
 
           <div className="main">
             <div className="info_text">
-              <p>Բարի գալուստ «Ո՞վ է ուզում դառնալ միլիոնատեր» ինտելեկտուալ խաղ, Հարգելի {people.name}</p>
+              <p>
+                Welcome to Who Wants to Be a Millionaire, {people.name}! Get ready to test your knowledge and aim for the top prize!
+              </p>
             </div>
             
             {timeOut ? (

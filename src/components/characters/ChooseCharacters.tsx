@@ -51,7 +51,7 @@ const ChooseCharacter = () => {
                             <div className="rotate" style={{ marginRight: '20px' }}></div>Age:
                         </div>
                         <div className="bg-gradient">
-                            <h1>{selectedCharacter.age}</h1>
+                            <h2>{selectedCharacter.age}</h2>
                         </div>
                     </div>
 
@@ -60,7 +60,7 @@ const ChooseCharacter = () => {
                             <div className="rotate" style={{ marginRight: '20px' }}></div>Profession:
                         </div>
                         <div className="bg-gradient">
-                            <h1>{selectedCharacter.profession}</h1>
+                            <h2>{selectedCharacter.profession}</h2>
                         </div>
                     </div>
 
@@ -69,7 +69,7 @@ const ChooseCharacter = () => {
                             <div className="rotate" style={{ marginRight: '20px' }}></div>Hobby:
                         </div>
                         <div className="bg-gradient">
-                            <h1>{selectedCharacter.hobby}</h1>
+                            <h2>{selectedCharacter.hobby}</h2>
                         </div>
                     </div>
                 </div>
