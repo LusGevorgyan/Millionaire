@@ -9,6 +9,7 @@ import Start from "./components/Start"
 import { useSelector, useDispatch } from 'react-redux'
 import { setEarned } from "./store/slice/GameSlice"
 import { RootState } from "./store/store"
+import HelpAnswer from "./components/help/HelpAnswer"
 
 function App() {
   const dispatch = useDispatch()
@@ -60,6 +61,7 @@ function App() {
             ) : (
               <>
                 <div className="top">
+                  <HelpAnswer />
                   <div className="timer">
                     <Timer />
                   </div>

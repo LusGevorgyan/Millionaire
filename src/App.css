@@ -16,6 +16,8 @@
     url("./assets/fon-kto-hochet-stat-millionerom-dlja-prezentacii-5810.jpg") center;
   display: flex;
   flex-direction: column;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .pyramid {
@@ -97,6 +99,27 @@
   left: 80px;
   font-size: 30px;
   font-weight: 700;
+}
+
+.helpers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: absolute;
+  top: 10px;
+  left: 80px;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.helpers img {
+  width: 100px;
+  cursor: pointer;
+}
+
+.helpers .used {
+  opacity: 0.5;
+  cursor: auto
 }
 
 .bottom {
