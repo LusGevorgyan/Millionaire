@@ -21,6 +21,7 @@ const AnswerList = ({ data }: AnswerListProps) => {
   const [selectedQuestions, setSelectedQuestions] = useState<QuestionsType>([])
   const [question, setQuestion] = useState<QuestionType | null>(null)
   const [className, setClassName] = useState("answer")
+  
   const [letsPlay] = useSound(play)
   const [correctAnswer] = useSound(correct)
   const [wrongAnswer] = useSound(wrong)

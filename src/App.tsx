@@ -1,6 +1,6 @@
 import "./App.css"
 import { useEffect, useMemo } from "react"
-import Timer from "./components/Timer"
+import Timer from "./components/timer/Timer"
 import AnswerList from "./components/AnswerList"
 import { ObjectType } from "./shared/helpers/types"
 import questionData from "./components/questions/QuestionList"
