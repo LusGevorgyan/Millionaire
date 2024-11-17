@@ -6,6 +6,7 @@ export interface AnswerType {
 }
 
 export type AnswersType = AnswerType[]
+export type difficultyType = 'medium' | 'hard' | 'easy'
 
 export interface QuestionType {
     id: number
