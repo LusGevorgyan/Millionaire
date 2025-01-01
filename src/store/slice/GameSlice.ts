@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { AnswersType, QuestionsType } from "../../components/questions/question.type"
+import { AnswersType, QuestionsType, QuestionType } from "../../components/questions/question.type"
 
 interface GameState {
   selectedAnswer: string | null
@@ -7,8 +7,15 @@ interface GameState {
   timeOut: boolean
   earned: string
   excludedAnswers: AnswersType
+  question: QuestionType
   questions: QuestionsType
   isActiveExcluded: boolean
+  isActiveReplaceQuestion: boolean
+  availableQuestions: {
+    easy: QuestionsType
+    medium: QuestionsType
+    hard: QuestionsType
+  }
 }
 
 const initialState: GameState = {
@@ -17,8 +24,15 @@ const initialState: GameState = {
   timeOut: false,
   earned: "$ 0",
   excludedAnswers: [],
+  question: {} as QuestionType,
   questions: [],
-  isActiveExcluded: false
+  isActiveExcluded: false,
+  isActiveReplaceQuestion: false,
+  availableQuestions: {
+    easy: [],
+    medium: [],
+    hard: []
+  }
 }
 
 const gameSlice = createSlice({
@@ -38,10 +52,9 @@ const gameSlice = createSlice({
       const currentQuestionIndex = state.questionNumber - 1
       if (currentQuestionIndex < 0 || currentQuestionIndex >= state.questions.length) return
       
-      const currentQuestion = state.questions[currentQuestionIndex];
-      
+      const currentQuestion = state.questions[currentQuestionIndex]
       if (!currentQuestion) return
-    
+      
       const correctAnswer = currentQuestion.answers.find((answer) => answer.correct)
       const incorrectAnswers = currentQuestion.answers.filter((answer) => !answer.correct)
       
@@ -55,13 +68,20 @@ const gameSlice = createSlice({
       }
     },
     resetExcludedAnswers: (state) => {
-      state.excludedAnswers = [];
+      state.excludedAnswers = []
+    },
+    setGameState: <K extends keyof GameState>(state: GameState, action: PayloadAction<{ name: K, value: GameState[K] }>) => {
+      const { name, value } = action.payload;
+      state[name] = value;
     },
     setEarned: (state, action: PayloadAction<string>) => {
       state.earned = action.payload
     },
     setQuestions: (state, action: PayloadAction<QuestionsType>) => {
       state.questions = action.payload
+    },
+    resetGame: (state) => {
+      return initialState; // Reset the state to initial values
     }
   }
 })
@@ -73,7 +93,9 @@ export const {
   setExcludedAnswers,
   setQuestions,
   setEarned,
-  resetExcludedAnswers
+  resetExcludedAnswers,
+  setGameState,
+  resetGame
 } = gameSlice.actions
 
 export default gameSlice.reducer

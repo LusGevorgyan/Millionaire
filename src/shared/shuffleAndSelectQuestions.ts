@@ -1,16 +1,34 @@
 import { QuestionsType } from "../components/questions/question.type"
 
-const shuffleAndSelectQuestions = (questions: QuestionsType, num: number): QuestionsType => {
-    const easyQuestions = questions.filter(q => q.difficulty === 'easy')
-    const mediumQuestions = questions.filter(q => q.difficulty === 'medium')
-    const hardQuestions = questions.filter(q => q.difficulty === 'hard')
-  
-    const selectedEasy = easyQuestions.sort(() => 0.5 - Math.random()).slice(0, Math.floor(num * 0.4)) // 40% easy
-    const selectedMedium = mediumQuestions.sort(() => 0.5 - Math.random()).slice(0, Math.floor(num * 0.4)) // 40% medium
-    const selectedHard = hardQuestions.sort(() => 0.5 - Math.random()).slice(0, Math.ceil(num * 0.2)) // 20% hard
-  
-    const selectedQuestions = [...selectedEasy, ...selectedMedium, ...selectedHard].sort(() => 0.5 - Math.random())
-    return selectedQuestions
+const shuffleAndSelectQuestions = (questions: QuestionsType, total: number): {
+  initialQuestions: QuestionsType,
+  availableQuestions: { easy: QuestionsType, medium: QuestionsType, hard: QuestionsType }
+} => {
+  const easyQuestions = questions
+    .filter(question => question.difficulty === 'easy')
+    .sort(() => 0.5 - Math.random())
+
+  const mediumQuestions = questions
+    .filter(question => question.difficulty === 'medium')
+    .sort(() => 0.5 - Math.random())
+
+  const hardQuestions = questions
+    .filter(question => question.difficulty === 'hard')
+    .sort(() => 0.5 - Math.random())
+
+  const initialQuestions = [
+    ...easyQuestions.slice(0, 5),
+    ...mediumQuestions.slice(0, 5),
+    ...hardQuestions.slice(0, 6)
+  ]
+
+  const availableQuestions = {
+    easy: easyQuestions.slice(5),     // Remaining easy questions
+    medium: mediumQuestions.slice(5), // Remaining medium questions
+    hard: hardQuestions.slice(6)      // Remaining hard questions
+  }
+
+  return { initialQuestions, availableQuestions }
 }
 
 export default shuffleAndSelectQuestions
